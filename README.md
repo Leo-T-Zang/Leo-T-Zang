@@ -19,18 +19,6 @@ Here are some ideas to get you started:
 ## 📈 Metrics
 ![Metrics](./github-metrics.svg?update=1)
 
-## 📊 GitHub Stats & Contributions
-
-![Leo's GitHub stats](https://github-readme-stats.vercel.app/api?username=Leo-T-Zang&show_icons=true&theme=radical&include_all_commits=true&count_private=true)
-
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=Leo-T-Zang&layout=compact&theme=radical&hide=jupyter%20notebook)
-
-## 🌟 Total Contribution Stats
-![GitHub Streak](https://github-readme-streak-stats.herokuapp.com/?user=Leo-T-Zang&theme=radical)
-
-## 🏆 GitHub Trophies
-![trophy](https://github-profile-trophy.vercel.app/?username=Leo-T-Zang&theme=radical&column=7)
-
 <!-- ---
 
 ## 📊 GitHub Stats
