@@ -23,11 +23,10 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Pull latest changes
+      - name: Configure Git
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git pull origin main --rebase
 
       - name: Generate contribution stats
         env:
@@ -136,18 +135,48 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git add README.md
-          if git diff --staged --quiet; then
+          # Check if there are any changes to commit
+          if git diff --quiet; then
             echo "No changes to commit"
-          else
-            # Try to pull any new changes before pushing
-            git pull origin main --rebase || echo "No remote changes to pull"
-            git commit -m "🤖 Update code contribution stats [skip ci]"
-            
-            # Retry push with force if needed (safe because we're only updating README)
-            git push origin main || {
-              echo "Push failed, trying force push after pull..."
-              git pull origin main --rebase
-              git push origin main
-            }
+            exit 0
           fi
+          
+          # Stage changes
+          git add README.md
+          
+          # Check if there are staged changes
+          if git diff --staged --quiet; then
+            echo "No staged changes to commit"
+            exit 0
+          fi
+          
+          # Commit changes
+          git commit -m "🤖 Update code contribution stats [skip ci]"
+          
+          # Try to push with retry logic
+          MAX_RETRIES=3
+          RETRY_COUNT=0
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            echo "Attempting to push (attempt $((RETRY_COUNT + 1))/$MAX_RETRIES)..."
+            
+            # Pull latest changes with rebase
+            if git pull --rebase origin main; then
+              echo "Successfully pulled latest changes"
+            else
+              echo "Pull failed, but continuing..."
+            fi
+            
+            # Try to push
+            if git push origin main; then
+              echo "Successfully pushed changes!"
+              exit 0
+            else
+              echo "Push failed, retrying..."
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+              sleep 2
+            fi
+          done
+          
+          echo "Failed to push after $MAX_RETRIES attempts"
+          exit 1
