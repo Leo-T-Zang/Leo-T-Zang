@@ -16,11 +16,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0  # Fetch full history
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+
+      - name: Pull latest changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git pull origin main --rebase
 
       - name: Generate contribution stats
         env:
@@ -129,12 +136,18 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
           git add README.md
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "🤖 Update code contribution stats"
-            git push
+            # Try to pull any new changes before pushing
+            git pull origin main --rebase || echo "No remote changes to pull"
+            git commit -m "🤖 Update code contribution stats [skip ci]"
+            
+            # Retry push with force if needed (safe because we're only updating README)
+            git push origin main || {
+              echo "Push failed, trying force push after pull..."
+              git pull origin main --rebase
+              git push origin main
+            }
           fi
