@@ -19,8 +19,8 @@ Here are some ideas to get you started:
 ## 📈 Metrics
 ![Metrics](./github-metrics.svg?update=1)
 
-<!-- 
----
+
+<!-- ---
 
 ## 📊 GitHub Stats
 ![Leo's GitHub stats](https://github-readme-stats.vercel.app/api?username=Leo-T-Zang&show_icons=true&theme=radical)
@@ -32,14 +32,14 @@ Here are some ideas to get you started:
 ---
 
 ## 🌟 Total Stars Earned
-![Total Stars](https://github-readme-stats.vercel.app/api?username=Leo-T-Zang&count_private=true&show_icons=true&hide=prs,issues,contribs&theme=radical)
+![Total Stars](https://github-readme-stats.vercel.app/api?username=Leo-T-Zang&count_private=true&show_icons=true&hide=prs,issues,contribs&theme=radical) -->
 
 ---
 
 ## 🚀 Featured Projects
 - [PepMLM](https://github.com/programmablebio/pepmlm)
 - [DPAC](https://github.com/Leo-T-Zang/DPAC)
-- [AMP-Diffusion](https://github.com/programmablebio/amp-diffusion) -->
+- [AMP-Diffusion](https://github.com/programmablebio/amp-diffusion)
 
 ---
 
