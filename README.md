@@ -16,9 +16,6 @@ Here are some ideas to get you started:
 -->
 
 
-## 📈 Metrics
-![Metrics](./github-metrics.svg?update=1)
-
 <!-- CONTRIBUTION-STATS:START -->
 ## ⭐ Total Stars Across All Contributions: 2814
 
