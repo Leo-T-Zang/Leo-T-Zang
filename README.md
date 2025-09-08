@@ -19,7 +19,7 @@ Here are some ideas to get you started:
 ## 📈 Metrics
 ![Metrics](./github-metrics.svg?update=1)
 
-
+<!-- 
 ---
 
 ## 📊 GitHub Stats
@@ -39,7 +39,7 @@ Here are some ideas to get you started:
 ## 🚀 Featured Projects
 - [PepMLM](https://github.com/programmablebio/pepmlm)
 - [DPAC](https://github.com/Leo-T-Zang/DPAC)
-- [AMP-Diffusion](https://github.com/programmablebio/amp-diffusion)
+- [AMP-Diffusion](https://github.com/programmablebio/amp-diffusion) -->
 
 ---
 
