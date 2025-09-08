@@ -25,7 +25,7 @@ jobs:
           repositories_affiliations: owner, collaborator, organization_member
           repositories_forks: no
           
-          # Notable contributions (this shows repos you contributed to)
+          # Notable contributions
           plugin_notable: yes
           plugin_notable_from: organization, user
           plugin_notable_repositories: yes

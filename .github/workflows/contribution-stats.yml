@@ -1,0 +1,86 @@
+name: Update Contribution Stats
+
+on:
+  schedule:
+    - cron: "0 6 * * *"  # Daily at 6 AM
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Generate Contribution Stats
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            
+            // Get user's contributions
+            const query = `
+              query($username: String!) {
+                user(login: $username) {
+                  repositoriesContributedTo(first: 100, includeUserRepositories: true) {
+                    nodes {
+                      name
+                      owner {
+                        login
+                      }
+                      stargazerCount
+                      url
+                      description
+                      primaryLanguage {
+                        name
+                        color
+                      }
+                    }
+                  }
+                }
+              }
+            `;
+            
+            const result = await github.graphql(query, {
+              username: 'Leo-T-Zang'
+            });
+            
+            const repos = result.user.repositoriesContributedTo.nodes;
+            const totalStars = repos.reduce((sum, repo) => sum + repo.stargazerCount, 0);
+            
+            // Sort by stars
+            repos.sort((a, b) => b.stargazerCount - a.stargazerCount);
+            
+            // Generate markdown
+            let markdown = `## ⭐ Total Stars Across All Contributions: ${totalStars}\n\n`;
+            markdown += `### Top Contributed Repositories:\n\n`;
+            
+            repos.slice(0, 10).forEach(repo => {
+              if (repo.stargazerCount > 0) {
+                markdown += `- [${repo.owner.login}/${repo.name}](${repo.url}) - ⭐ ${repo.stargazerCount} stars\n`;
+                if (repo.description) {
+                  markdown += `  - ${repo.description}\n`;
+                }
+              }
+            });
+            
+            // Update README
+            const readme = fs.readFileSync('README.md', 'utf8');
+            const startMarker = '<!-- CONTRIBUTION-STATS:START -->';
+            const endMarker = '<!-- CONTRIBUTION-STATS:END -->';
+            
+            const newReadme = readme.replace(
+              new RegExp(`${startMarker}[\\s\\S]*${endMarker}`),
+              `${startMarker}\n${markdown}\n${endMarker}`
+            );
+            
+            fs.writeFileSync('README.md', newReadme);
+            
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git diff --staged --quiet || git commit -m "Update contribution stats"
+          git push
