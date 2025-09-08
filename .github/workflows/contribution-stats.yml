@@ -1,29 +1,40 @@
 name: Update Contribution Stats
 
 on:
-  schedule:
-    - cron: "0 6 * * *"  # Daily at 6 AM
   workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
 
 jobs:
   update-stats:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        
-      - name: Generate Contribution Stats
-        uses: actions/github-script@v6
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            
-            // Get user's contributions
-            const query = `
-              query($username: String!) {
-                user(login: $username) {
-                  repositoriesContributedTo(first: 100, includeUserRepositories: true) {
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Generate contribution stats
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e "
+          const https = require('https');
+          const fs = require('fs');
+          
+          const query = JSON.stringify({
+            query: \`
+              query {
+                user(login: \"Leo-T-Zang\") {
+                  repositoriesContributedTo(first: 100, includeUserRepositories: true, contributionTypes: [COMMIT, PULL_REQUEST]) {
                     nodes {
                       name
                       owner {
@@ -34,53 +45,96 @@ jobs:
                       description
                       primaryLanguage {
                         name
-                        color
                       }
                     }
                   }
                 }
               }
-            `;
-            
-            const result = await github.graphql(query, {
-              username: 'Leo-T-Zang'
-            });
-            
-            const repos = result.user.repositoriesContributedTo.nodes;
-            const totalStars = repos.reduce((sum, repo) => sum + repo.stargazerCount, 0);
-            
-            // Sort by stars
-            repos.sort((a, b) => b.stargazerCount - a.stargazerCount);
-            
-            // Generate markdown
-            let markdown = `## ⭐ Total Stars Across All Contributions: ${totalStars}\n\n`;
-            markdown += `### Top Contributed Repositories:\n\n`;
-            
-            repos.slice(0, 10).forEach(repo => {
-              if (repo.stargazerCount > 0) {
-                markdown += `- [${repo.owner.login}/${repo.name}](${repo.url}) - ⭐ ${repo.stargazerCount} stars\n`;
-                if (repo.description) {
-                  markdown += `  - ${repo.description}\n`;
+            \`
+          });
+          
+          const options = {
+            hostname: 'api.github.com',
+            port: 443,
+            path: '/graphql',
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + process.env.GITHUB_TOKEN,
+              'Content-Type': 'application/json',
+              'User-Agent': 'GitHub-Stats-Action'
+            }
+          };
+          
+          const req = https.request(options, (res) => {
+            let data = '';
+            res.on('data', (chunk) => data += chunk);
+            res.on('end', () => {
+              try {
+                const result = JSON.parse(data);
+                if (result.errors) {
+                  console.error('GraphQL errors:', result.errors);
+                  return;
                 }
+                
+                const repos = result.data.user.repositoriesContributedTo.nodes;
+                
+                // Filter out repos with 0 stars and only include meaningful contributions
+                const meaningfulRepos = repos.filter(repo => repo.stargazerCount > 0);
+                const totalStars = meaningfulRepos.reduce((sum, repo) => sum + repo.stargazerCount, 0);
+                
+                meaningfulRepos.sort((a, b) => b.stargazerCount - a.stargazerCount);
+                
+                let markdown = \`## ⭐ Total Stars from Code Contributions: \${totalStars}\n\n\`;
+                markdown += \`*From \${meaningfulRepos.length} repositories with actual code contributions*\n\n\`;
+                markdown += \`### Top Contributed Repositories (Code Only):\n\n\`;
+                
+                meaningfulRepos.slice(0, 10).forEach(repo => {
+                  markdown += \`- [\${repo.owner.login}/\${repo.name}](\${repo.url}) - ⭐ \${repo.stargazerCount} stars\`;
+                  if (repo.primaryLanguage) {
+                    markdown += \` (\${repo.primaryLanguage.name})\`;
+                  }
+                  markdown += \`\n\`;
+                  if (repo.description) {
+                    markdown += \`  - \${repo.description}\n\`;
+                  }
+                });
+                
+                const readme = fs.readFileSync('README.md', 'utf8');
+                const startMarker = '<!-- CONTRIBUTION-STATS:START -->';
+                const endMarker = '<!-- CONTRIBUTION-STATS:END -->';
+                
+                if (readme.includes(startMarker) && readme.includes(endMarker)) {
+                  const newReadme = readme.replace(
+                    new RegExp(\`\${startMarker}[\\\\s\\\\S]*\${endMarker}\`),
+                    \`\${startMarker}\n\${markdown}\n\${endMarker}\`
+                  );
+                  fs.writeFileSync('README.md', newReadme);
+                  console.log('README updated successfully!');
+                } else {
+                  console.log('Markers not found in README.md');
+                }
+              } catch (error) {
+                console.error('Error processing response:', error);
               }
             });
-            
-            // Update README
-            const readme = fs.readFileSync('README.md', 'utf8');
-            const startMarker = '<!-- CONTRIBUTION-STATS:START -->';
-            const endMarker = '<!-- CONTRIBUTION-STATS:END -->';
-            
-            const newReadme = readme.replace(
-              new RegExp(`${startMarker}[\\s\\S]*${endMarker}`),
-              `${startMarker}\n${markdown}\n${endMarker}`
-            );
-            
-            fs.writeFileSync('README.md', newReadme);
-            
-      - name: Commit changes
+          });
+          
+          req.on('error', (error) => {
+            console.error('Request error:', error);
+          });
+          
+          req.write(query);
+          req.end();
+          "
+
+      - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add README.md
-          git diff --staged --quiet || git commit -m "Update contribution stats"
-          git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Update code contribution stats"
+            git push
+          fi
