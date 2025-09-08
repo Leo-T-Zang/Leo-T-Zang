@@ -15,8 +15,10 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 
+
 ## 📈 Metrics
-![Metrics](./github-metrics.svg)
+![Metrics](./github-metrics.svg?update=1)
+
 
 ---
 
