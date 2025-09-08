@@ -25,20 +25,26 @@ jobs:
           base: header, activity, community, repositories, metadata
 
           # Include stars for repos you own + ones you collaborate on
-          repositories_affiliations: owner, collaborator
+          repositories_affiliations: owner, collaborator, organization_member
           repositories_forks: no
 
-          # Useful plugins
+          # Languages plugin
           plugin_languages: yes
           plugin_languages_details: bytes-size, percentage
-          plugin_languages_ignored: html, css
+          plugin_languages_ignored: html, css, jupyter notebook
+          plugin_languages_limit: 8
 
+          # Followup plugin
           plugin_followup: yes
 
-          # Highlight contributions to external repos (not a star total, but links/cards)
-          plugin_notable: yes
-          plugin_notable_filter: >-
-            is:public fork:false
+          # Stars plugin - this will show total stars across all your repos
+          plugin_stars: yes
+          plugin_stars_limit: 4
 
-          # Remove the plugin that is erroring for you right now
-          # plugin_achievements: no
+          # Achievements plugin (disable if causing errors)
+          plugin_achievements: no
+          
+          # Notable contributions plugin
+          plugin_notable: yes
+          plugin_notable_filter: stars:>10
+          plugin_notable_repositories: yes
