@@ -17,7 +17,7 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 301
+## ⭐ Total Stars from Code Contributions: 304
 
 *From 4 repositories with contributions*
 
@@ -25,9 +25,9 @@ Here are some ideas to get you started:
 
 - [Zuricho/ProteinDesignLabs](https://github.com/Zuricho/ProteinDesignLabs) - ⭐ 195 stars
   - List of computational protein design research labs
-- [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 88 stars (Python)
+- [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 90 stars (Python)
   - Target Sequence-Conditioned Generation of Peptide Binders via Masked Language Modeling
-- [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 10 stars (Python)
+- [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 11 stars (Python)
 - [programmablebio/dpac](https://github.com/programmablebio/dpac) - ⭐ 8 stars (Python)
 
 <!-- CONTRIBUTION-STATS:END -->
