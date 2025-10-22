@@ -17,7 +17,7 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 329
+## ⭐ Total Stars from Code Contributions: 330
 
 *From 4 repositories with contributions*
 
@@ -27,7 +27,7 @@ Here are some ideas to get you started:
   - List of computational protein design research labs
 - [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 103 stars (Python)
   - Target Sequence-Conditioned Generation of Peptide Binders via Masked Language Modeling
-- [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 15 stars (Python)
+- [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 16 stars (Python)
 - [programmablebio/dpac](https://github.com/programmablebio/dpac) - ⭐ 8 stars (Python)
 
 <!-- CONTRIBUTION-STATS:END -->
