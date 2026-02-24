@@ -23,9 +23,9 @@ Here are some ideas to get you started:
 
 ### Top Contributed Repositories:
 
-- [pytorch/torchtitan](https://github.com/pytorch/torchtitan) - ⭐ 5083 stars (Python)
+- [pytorch/torchtitan](https://github.com/pytorch/torchtitan) - ⭐ 5084 stars (Python)
   - A PyTorch native platform for training generative AI models
-- [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 116 stars (Python)
+- [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 115 stars (Python)
   - Target Sequence-Conditioned Generation of Peptide Binders via Masked Language Modeling
 - [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 18 stars (Python)
 - [programmablebio/dpac](https://github.com/programmablebio/dpac) - ⭐ 9 stars (Python)
