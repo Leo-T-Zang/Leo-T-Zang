@@ -17,14 +17,12 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 5491
+## ⭐ Total Stars from Code Contributions: 143
 
-*From 3 repositories with contributions*
+*From 2 repositories with contributions*
 
 ### Top Contributed Repositories:
 
-- [pytorch/torchtitan](https://github.com/pytorch/torchtitan) - ⭐ 5348 stars (Python)
-  - A PyTorch native platform for training generative AI models
 - [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 124 stars (Python)
   - Target Sequence-Conditioned Generation of Peptide Binders via Masked Language Modeling
 - [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 19 stars (Python)
