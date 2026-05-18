@@ -36,29 +36,36 @@ jobs:
           const https = require('https');
           const fs = require('fs');
 
-          // Repositories to exclude from the stats (e.g. PRs opened but never accepted).
+          // Safety-net allowlist of repos to exclude from the stats even if
+          // they show up as a merged PR. Use for trivial/typo-fix PRs you
+          // don't want to claim, or repos that landed in error.
           const EXCLUDED_REPOS = new Set([
             'pytorch/torchtitan',
           ]);
 
-          // Only count repos where the user has actual COMMIT contributions.
-          // Merged PRs produce commits; closed-without-merge PRs do not, so this
-          // naturally filters out drive-by PRs that never landed.
+          // Use a PR search for is:merged so we catch contributions regardless of
+          // merge strategy. repositoriesContributedTo with COMMIT misses repos
+          // that squash-and-merge (the squash commit's author is the merger,
+          // not the PR author), and including PULL_REQUEST would count PRs
+          // that were closed without merging. is:merged is the right signal.
           const query = JSON.stringify({
             query: \`
               query {
-                user(login: \"Leo-T-Zang\") {
-                  repositoriesContributedTo(first: 100, includeUserRepositories: true, contributionTypes: [COMMIT]) {
-                    nodes {
-                      name
-                      owner {
-                        login
-                      }
-                      stargazerCount
-                      url
-                      description
-                      primaryLanguage {
+                search(query: \"is:pr author:Leo-T-Zang is:merged is:public\", type: ISSUE, first: 100) {
+                  nodes {
+                    ... on PullRequest {
+                      repository {
                         name
+                        owner {
+                          login
+                        }
+                        stargazerCount
+                        url
+                        description
+                        primaryLanguage {
+                          name
+                        }
+                        isFork
                       }
                     }
                   }
@@ -90,10 +97,19 @@ jobs:
                   process.exit(1);
                 }
 
-                const repos = result.data.user.repositoriesContributedTo.nodes;
+                // Dedupe repos across merged PRs (one repo, many PRs).
+                const seen = new Map();
+                for (const pr of result.data.search.nodes) {
+                  const repo = pr && pr.repository;
+                  if (!repo) continue;
+                  const slug = repo.owner.login + '/' + repo.name;
+                  if (!seen.has(slug)) seen.set(slug, repo);
+                }
+                const repos = Array.from(seen.values());
 
-                // Filter out repos with 0 stars and explicitly excluded repos.
+                // Filter out forks, repos with 0 stars, and excluded repos.
                 const meaningfulRepos = repos.filter(repo => {
+                  if (repo.isFork) return false;
                   if (repo.stargazerCount <= 0) return false;
                   const slug = repo.owner.login + '/' + repo.name;
                   if (EXCLUDED_REPOS.has(slug)) {
