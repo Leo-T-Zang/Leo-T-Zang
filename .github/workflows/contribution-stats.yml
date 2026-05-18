@@ -35,12 +35,20 @@ jobs:
           node -e "
           const https = require('https');
           const fs = require('fs');
-          
+
+          // Repositories to exclude from the stats (e.g. PRs opened but never accepted).
+          const EXCLUDED_REPOS = new Set([
+            'pytorch/torchtitan',
+          ]);
+
+          // Only count repos where the user has actual COMMIT contributions.
+          // Merged PRs produce commits; closed-without-merge PRs do not, so this
+          // naturally filters out drive-by PRs that never landed.
           const query = JSON.stringify({
             query: \`
               query {
                 user(login: \"Leo-T-Zang\") {
-                  repositoriesContributedTo(first: 100, includeUserRepositories: true, contributionTypes: [COMMIT, PULL_REQUEST]) {
+                  repositoriesContributedTo(first: 100, includeUserRepositories: true, contributionTypes: [COMMIT]) {
                     nodes {
                       name
                       owner {
@@ -78,14 +86,22 @@ jobs:
               try {
                 const result = JSON.parse(data);
                 if (result.errors) {
-                  console.error('GraphQL errors:', result.errors);
-                  return;
+                  console.error('GraphQL errors:', JSON.stringify(result.errors, null, 2));
+                  process.exit(1);
                 }
-                
+
                 const repos = result.data.user.repositoriesContributedTo.nodes;
-                
-                // Filter out repos with 0 stars and only include meaningful contributions
-                const meaningfulRepos = repos.filter(repo => repo.stargazerCount > 0);
+
+                // Filter out repos with 0 stars and explicitly excluded repos.
+                const meaningfulRepos = repos.filter(repo => {
+                  if (repo.stargazerCount <= 0) return false;
+                  const slug = repo.owner.login + '/' + repo.name;
+                  if (EXCLUDED_REPOS.has(slug)) {
+                    console.log('Excluding ' + slug + ' (in EXCLUDED_REPOS)');
+                    return false;
+                  }
+                  return true;
+                });
                 const totalStars = meaningfulRepos.reduce((sum, repo) => sum + repo.stargazerCount, 0);
                 
                 meaningfulRepos.sort((a, b) => b.stargazerCount - a.stargazerCount);
@@ -121,12 +137,14 @@ jobs:
                 }
               } catch (error) {
                 console.error('Error processing response:', error);
+                process.exit(1);
               }
             });
           });
-          
+
           req.on('error', (error) => {
             console.error('Request error:', error);
+            process.exit(1);
           });
           
           req.write(query);
