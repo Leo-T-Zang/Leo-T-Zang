@@ -17,15 +17,13 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 143
+## ⭐ Total Stars from Code Contributions: 60
 
-*From 2 repositories with contributions*
+*From 1 repositories with contributions*
 
 ### Top Contributed Repositories:
 
-- [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 124 stars (Python)
-  - Target Sequence-Conditioned Generation of Peptide Binders via Masked Language Modeling
-- [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 19 stars (Python)
+- [OpenBioML/protein-lm-scaling](https://github.com/OpenBioML/protein-lm-scaling) - ⭐ 60 stars (Python)
 
 <!-- CONTRIBUTION-STATS:END -->
 
