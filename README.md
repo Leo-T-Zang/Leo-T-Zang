@@ -17,13 +17,15 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 61
+## ⭐ Total Stars from Code Contributions: 104
 
-*From 1 repositories with contributions*
+*From 2 repositories with contributions*
 
 ### Top Contributed Repositories:
 
 - [OpenBioML/protein-lm-scaling](https://github.com/OpenBioML/protein-lm-scaling) - ⭐ 61 stars (Python)
+- [MarksLab-DasLab/RNAGym](https://github.com/MarksLab-DasLab/RNAGym) - ⭐ 43 stars (Python)
+  - RNAGym is an extensive benchmark suite and resource for RNA fitness and structure prediction
 
 <!-- CONTRIBUTION-STATS:END -->
 
