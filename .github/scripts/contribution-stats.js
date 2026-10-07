@@ -8,6 +8,7 @@
 //      was created (catches direct pushes, e.g. lab repos like
 //      programmablebio/pepmlm that never went through a PR).
 //   3. The user owns it.
+//   4. It is listed in INCLUDED_REPOS.
 // Open or closed-without-merge PRs never count, since they produce neither a
 // merged PR nor a commit contribution.
 
@@ -20,6 +21,13 @@ const LOGIN = 'Leo-T-Zang';
 const EXCLUDED_REPOS = new Set([
   'pytorch/torchtitan',
 ]);
+
+// Repos to always count even though GitHub doesn't attribute any of their
+// commits to the user, e.g. papers co-authored where the public code was
+// pushed by someone else.
+const INCLUDED_REPOS = [
+  'rohitarorayyc/proteingym-llm', // PGLLM
+];
 
 const REPO_FIELDS = `
   nameWithOwner
@@ -111,6 +119,19 @@ async function ownedRepos() {
   return repos;
 }
 
+async function includedRepos() {
+  const repos = [];
+  for (const slug of INCLUDED_REPOS) {
+    const [owner, name] = slug.split('/');
+    const data = await graphql(`
+      query($owner: String!, $name: String!) {
+        repository(owner: $owner, name: $name) { ${REPO_FIELDS} }
+      }`, { owner, name });
+    repos.push(data.repository);
+  }
+  return repos;
+}
+
 function render(repos) {
   const totalStars = repos.reduce((sum, r) => sum + r.stargazerCount, 0);
   let md = `## ⭐ Total Stars from Code Contributions: ${totalStars}\n\n`;
@@ -133,6 +154,7 @@ async function main() {
     'merged PRs': await mergedPrRepos(),
     'commits': await commitRepos(user.createdAt),
     'owned': await ownedRepos(),
+    'included': await includedRepos(),
   };
 
   const seen = new Map();
