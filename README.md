@@ -17,9 +17,9 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 525
+## ⭐ Total Stars from Code Contributions: 533
 
-*From 6 repositories with contributions*
+*From 7 repositories with contributions*
 
 ### Top Contributed Repositories:
 
@@ -32,6 +32,8 @@ Here are some ideas to get you started:
   - RNAGym is an extensive benchmark suite and resource for RNA fitness and structure prediction
 - [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 25 stars (Python)
 - [programmablebio/dpac](https://github.com/programmablebio/dpac) - ⭐ 9 stars (Python)
+- [rohitarorayyc/proteingym-llm](https://github.com/rohitarorayyc/proteingym-llm) - ⭐ 8 stars (Python)
+  - Can frontier LLMs rank protein variants by fitness? Benchmark code for PG-LLM.
 
 <!-- CONTRIBUTION-STATS:END -->
 
