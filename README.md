@@ -17,15 +17,21 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 104
+## ⭐ Total Stars from Code Contributions: 525
 
-*From 2 repositories with contributions*
+*From 6 repositories with contributions*
 
 ### Top Contributed Repositories:
 
+- [Zuricho/ProteinDesignLabs](https://github.com/Zuricho/ProteinDesignLabs) - ⭐ 249 stars
+  - List of computational protein design research labs
+- [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 138 stars (Python)
+  - Target Sequence-Conditioned Generation of Peptide Binders via Masked Language Modeling
 - [OpenBioML/protein-lm-scaling](https://github.com/OpenBioML/protein-lm-scaling) - ⭐ 61 stars (Python)
 - [MarksLab-DasLab/RNAGym](https://github.com/MarksLab-DasLab/RNAGym) - ⭐ 43 stars (Python)
   - RNAGym is an extensive benchmark suite and resource for RNA fitness and structure prediction
+- [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 25 stars (Python)
+- [programmablebio/dpac](https://github.com/programmablebio/dpac) - ⭐ 9 stars (Python)
 
 <!-- CONTRIBUTION-STATS:END -->
 
