@@ -2,6 +2,12 @@ name: Update Contribution Stats
 
 on:
   workflow_dispatch:
+  # Recalculate right away when the stats logic changes.
+  push:
+    branches: [main]
+    paths:
+      - .github/scripts/contribution-stats.js
+      - .github/workflows/contribution-stats.yml
   schedule:
     - cron: "0 6 * * *"
 
