@@ -17,7 +17,7 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 535
+## ⭐ Total Stars from Code Contributions: 536
 
 *From 7 repositories with contributions*
 
@@ -28,7 +28,7 @@ Here are some ideas to get you started:
 - [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 139 stars (Python)
   - Target Sequence-Conditioned Generation of Peptide Binders via Masked Language Modeling
 - [OpenBioML/protein-lm-scaling](https://github.com/OpenBioML/protein-lm-scaling) - ⭐ 61 stars (Python)
-- [MarksLab-DasLab/RNAGym](https://github.com/MarksLab-DasLab/RNAGym) - ⭐ 43 stars (Python)
+- [MarksLab-DasLab/RNAGym](https://github.com/MarksLab-DasLab/RNAGym) - ⭐ 44 stars (Python)
   - RNAGym is an extensive benchmark suite and resource for RNA fitness and structure prediction
 - [programmablebio/amp-diffusion](https://github.com/programmablebio/amp-diffusion) - ⭐ 25 stars (Python)
 - [programmablebio/dpac](https://github.com/programmablebio/dpac) - ⭐ 9 stars (Python)
