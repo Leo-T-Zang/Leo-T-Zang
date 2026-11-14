@@ -17,13 +17,13 @@ Here are some ideas to get you started:
 
 
 <!-- CONTRIBUTION-STATS:START -->
-## ⭐ Total Stars from Code Contributions: 540
+## ⭐ Total Stars from Code Contributions: 541
 
 *From 7 repositories with contributions*
 
 ### Top Contributed Repositories:
 
-- [Zuricho/ProteinDesignLabs](https://github.com/Zuricho/ProteinDesignLabs) - ⭐ 250 stars
+- [Zuricho/ProteinDesignLabs](https://github.com/Zuricho/ProteinDesignLabs) - ⭐ 251 stars
   - List of computational protein design research labs
 - [programmablebio/pepmlm](https://github.com/programmablebio/pepmlm) - ⭐ 142 stars (Python)
   - Target Sequence-Conditioned Generation of Peptide Binders via Masked Language Modeling
